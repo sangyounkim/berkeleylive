@@ -1,14 +1,15 @@
 //Scrupt to get the map and all the location stuff
-var initialLocation;
 var siberia = new google.maps.LatLng(60, 105);
 var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+
+var initialLocation;
 var tweets = [];
 var browserSupportFlag =  new Boolean();
 
 function initialize() {
   var myOptions = {
     zoom: 16,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: 'satellite'
   };
   var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
 
@@ -19,7 +20,17 @@ function initialize() {
       initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
       map.setCenter(initialLocation);
 
+
+      google.maps.event.addListener(map, 'center_changed', function(){
+      initialLocation = map.getCenter();
+
       setMarker(map, initialLocation);
+    });
+
+
+      setMarker(map, initialLocation);
+      setTweets(map, initialLocation);
+
     }, function() {
       handleNoGeolocation(browserSupportFlag);
     });
@@ -51,18 +62,15 @@ function initialize() {
       // icon: iconBase + 'schools_maps.png'
       icon: src
     });
-
-    setTweet(map, myLatLng);
   }
 
-  function setTweet(map, LatLng){
+  function setTweets(map, LatLng){
     var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
         '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
         '<div id="bodyContent">'+
         '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-        'Aboriginal people of the area. It has many springs, waterholes, '+
         'rock caves and ancient paintings. Uluru is listed as a World '+
         'Heritage Site.</p>'+
         '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
@@ -82,6 +90,12 @@ function initialize() {
     });
 
     infowindow.open(map,marker); 
+
+    window.setInterval(function(){
+          // marker.infowindow.setMap(null);
+          marker.infowindow = null;
+          marker.setMap(null);
+    }, 5000)
   } 
 }
 google.maps.event.addDomListener(window, "load", initialize);
