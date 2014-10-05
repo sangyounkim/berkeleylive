@@ -4,6 +4,24 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "components"
-  ]
+    "components",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "homepage": "https://github.com/sangyounkim/berkeleylive",
+  "authors": [
+    "Sangyoun Kim <skim@sugarcrm.com>"
+  ],
+  "description": "social media data visualization",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "backbone": "~1.1.2",
+    "requirejs": "~2.1.15",
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1",
+    "socket.io-client": "~1.1.0"
+  }
 }
